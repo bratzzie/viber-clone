@@ -9,9 +9,8 @@ import * as EmailValidator from "email-validator";
 const Sidebar = () => {
   const createChat = () => {
     const input = prompt("With whom you want to talk today?");
+    if (!input) return null;
   };
-
-  if (!input) return null;
 
   return (
     <Container>
