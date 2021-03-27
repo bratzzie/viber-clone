@@ -4,6 +4,7 @@ import Login from "./login";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Loading from "../components/Loading";
 import { useEffect } from "react";
+import firebase from "firebase";
 function MyApp({ Component, pageProps }) {
   const [user, loading] = useAuthState(auth);
 
@@ -20,9 +21,9 @@ function MyApp({ Component, pageProps }) {
         { merge: true }
       );
     }
-    return () => {
-      cleanup;
-    };
+    // return () => {
+    //   cleanup;
+    // };
   }, [user]);
 
   if (loading) return <Loading />;

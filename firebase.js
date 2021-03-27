@@ -1,13 +1,6 @@
 import firebase from "firebase";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCmC238CoZk01nwcXUYBJZFUH5r-Xuw5gA",
-  authDomain: "viber-2cbd8.firebaseapp.com",
-  projectId: "viber-2cbd8",
-  storageBucket: "viber-2cbd8.appspot.com",
-  messagingSenderId: "314059791853",
-  appId: "1:314059791853:web:f429651562934bccbc1be4",
-};
+import firebaseConfig from "./config";
 
 const app = !firebase.apps.length
   ? firebase.initializeApp(firebaseConfig)

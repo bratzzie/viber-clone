@@ -1,19 +1,25 @@
-import { Circle } from "better-react-spinkit";
+import { makeStyles } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-const Loading = () => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    "& > * + *": {
+      marginLeft: theme.spacing(2),
+    },
+  },
+}));
+
+export default function Loading() {
+  const classes = useStyles();
+
   return (
     <center style={{ display: "grid", placeItems: "center", height: "100vh" }}>
       <div>
-        <img
-          src="http://assets.icons.iconarchive.com/icons/papirus-team/papirus-apps/128/viber-icon.png"
-          alt="logo"
-          height={200}
-          style={{ marginBottom: 10 }}
-        />
-        <Circle color="violet" size={60} />
+        <div className={classes.root}>
+          <CircularProgress color="secondary" />
+        </div>
       </div>
     </center>
   );
-};
-
-export default Loading;
+}
