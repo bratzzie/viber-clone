@@ -4,6 +4,7 @@ import { auth, db } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import getRecipientEmail from "../utils/getRecipientEmail";
 import { useCollection } from "react-firebase-hooks/firestore";
+import { useRouter } from "next/router";
 
 const Chat = ({ id, users }) => {
   const [user] = useAuthState(auth);
@@ -15,13 +16,22 @@ const Chat = ({ id, users }) => {
 
   // routing
   const router = useRouter();
+  const enterChat = () => {
+    router.push(`/chat/${id}`);
+  };
   return (
-    <Section>
+    <Section onClick={enterChat}>
       <Wrapper style={{ flexDirection: "row" }}>
         {recipient ? (
-          <UserAvatar src={recipient?.photoURL} />
+          <UserAvatar
+            src={recipient?.photoURL}
+            variant="rounded"
+            style={{ borderRadius: 15 }}
+          />
         ) : (
-          <UserAvatar>{recipientEmail[0]}</UserAvatar>
+          <UserAvatar style={{ borderRadius: 15 }} variant="rounded">
+            {recipientEmail[0]}
+          </UserAvatar>
         )}
         {recipient ? (
           <p style={{ textTransform: "uppercase" }}>{recipient?.name}</p>
@@ -42,6 +52,7 @@ const Section = styled(Container)`
 
   margin-top: 7px;
   cursor: pointer;
+  border-bottom: 1px solid whitesmoke;
 `;
 const Wrapper = styled.div`
   display: flex;

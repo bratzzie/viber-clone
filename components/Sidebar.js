@@ -127,8 +127,17 @@ export default Sidebar;
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 0.4;
-  padding: 20px 0;
+  flex: 0.25;
+  padding: 20px 0px;
+  border-right: 1px solid whitesmoke;
+  height: 100vh;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  --ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 const Header = styled.div`
   position: sticky;
