@@ -13,12 +13,17 @@ import GifIcon from "@material-ui/icons/Gif";
 import MoodIcon from "@material-ui/icons/Mood";
 import MicNoneIcon from "@material-ui/icons/MicNone";
 import Message from "./Message";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import firebase from "firebase";
+import getRecipientEmail from "../utils/getRecipientEmail";
+import TimeAgo from "timeago-react";
 
 const ChatScreen = ({ chat, messages }) => {
   const [user] = useAuthState(auth);
   const router = useRouter();
   const [input, setInput] = useState("");
+  const endOfMessagesRef = useRef(null);
+  // get messages query
   const [messagesSnapshot] = useCollection(
     db
       .collection("chats")
@@ -27,6 +32,14 @@ const ChatScreen = ({ chat, messages }) => {
       .orderBy("timestamp", "asc")
   );
 
+  // get query of recipient
+  const [recipientSnapshot] = useCollection(
+    db
+      .collection("users")
+      .where("email", "==", getRecipientEmail(chat.users, user))
+  );
+
+  // function to show messages
   const showMessages = () => {
     if (messagesSnapshot) {
       return messagesSnapshot.docs.map((message) => (
@@ -39,24 +52,90 @@ const ChatScreen = ({ chat, messages }) => {
           }}
         />
       ));
+    } else {
+      return JSON.parse(messages).map((message) => (
+        <Message key={message.id} user={message.user} message={message} />
+      ));
     }
   };
+
+  // scroll every time new message appairs
+  const scrollToBottom = () => {
+    endOfMessagesRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
+  // function to send messages
+  const sendMessage = (e) => {
+    e.preventDefault();
+
+    // if no -> set last seen, if already -> set last seen
+    db.collection("users").doc(user.uid).set(
+      {
+        lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
+      },
+      { merge: true }
+    );
+
+    // extually adding messages
+    db.collection("chats").doc(router.query.id).collection("messages").add({
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      message: input,
+      user: user.email,
+      photoURL: user.photoURL,
+      name: user.displayName,
+    });
+    setInput("");
+    scrollToBottom();
+  };
+  const recipient = recipientSnapshot?.docs?.[0]?.data();
+  const recipientEmail = getRecipientEmail(chat.users, user);
+
   return (
     <Section>
       <Header>
         <Row>
-          <Avatar
-            variant="rounded"
-            style={{
-              width: 50,
-              height: 50,
-              alignSelf: "center",
-              borderRadius: 19,
-            }}
-          />
+          {recipient ? (
+            <Avatar
+              variant="rounded"
+              style={{
+                width: 50,
+                height: 50,
+                alignSelf: "center",
+                borderRadius: 19,
+              }}
+              src={recipient?.photoURL}
+            />
+          ) : (
+            <Avatar
+              variant="rounded"
+              style={{
+                width: 50,
+                height: 50,
+                alignSelf: "center",
+                borderRadius: 19,
+              }}
+            >
+              {recipientEmail[0]}
+            </Avatar>
+          )}
+
           <Info>
-            <h1>Name</h1>
-            <p>Last seen...</p>
+            {recipient ? <h1>{recipient?.name}</h1> : <h1>{recipientEmail}</h1>}
+            {recipientSnapshot ? (
+              <p>
+                Last active:{" "}
+                {recipient?.lastSeen?.toDate() ? (
+                  <TimeAgo datetime={recipient?.lastSeen?.toDate()} />
+                ) : (
+                  "Last seen recently"
+                )}
+              </p>
+            ) : (
+              <p>Loading...</p>
+            )}
           </Info>
         </Row>
 
@@ -70,7 +149,7 @@ const ChatScreen = ({ chat, messages }) => {
 
       <MessageContainer>
         {showMessages()}
-        <EndOfMessage />
+        <EndOfMessage ref={endOfMessagesRef} />
       </MessageContainer>
       <InputContainer>
         <MyAddIcon />
@@ -206,7 +285,9 @@ const MessageContainer = styled.div`
   padding: 30px;
   min-height: 90vh;
 `;
-const EndOfMessage = styled.div``;
+const EndOfMessage = styled.div`
+  margin-bottom: 50px;
+`;
 const InputContainer = styled.form`
   display: flex;
   align-items: center;
@@ -222,6 +303,13 @@ const Input = styled.input`
   flex: 1;
   align-items: center;
   padding: 10px;
+  &:focus,
+  &:active {
+    box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    outline: none !important;
+  }
 
   position: sticky;
   bottom: 0;

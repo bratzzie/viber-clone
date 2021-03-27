@@ -5,19 +5,26 @@ import ChatScreen from "../../components/ChatScreen";
 import { auth, db } from "../../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Head from "next/head";
+import Header from "../../components/Header";
 
 const Chat = ({ chat, messages }) => {
   const [user] = useAuthState(auth);
   return (
-    <main style={{ display: "flex", flexDirection: "row" }}>
+    <>
       <Head>
         <title>Viber Web Chat</title>
       </Head>
-      <Sidebar />
-      <ChatContainer>
-        <ChatScreen chat={chat} messages={messages} />
-      </ChatContainer>
-    </main>
+
+      <main style={{ display: "flex", flexDirection: "column" }}>
+        <Header />
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <Sidebar />
+          <ChatContainer>
+            <ChatScreen chat={chat} messages={messages} />
+          </ChatContainer>
+        </div>
+      </main>
+    </>
   );
 };
 
