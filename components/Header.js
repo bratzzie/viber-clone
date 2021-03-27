@@ -1,8 +1,10 @@
 import styled from "styled-components";
-import ArrowBackIosRoundedIcon from "@material-ui/icons/ArrowBackIosRounded";
-import ArrowForwardIosRoundedIcon from "@material-ui/icons/ArrowForwardIosRounded";
 import { Avatar } from "@material-ui/core";
-import SettingsRoundedIcon from "@material-ui/icons/SettingsRounded";
+import {
+  SettingsRoundedIcon,
+  ArrowBackIosRoundedIcon,
+  ArrowForwardIosRoundedIcon,
+} from "../styles/icons";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
 
@@ -13,37 +15,57 @@ const Header = () => {
       <Row>
         <ArrowBackIosRoundedIcon
           style={{
-            borderRight: "1px solid #fff",
             marginLeft: 10,
+            color: "var(--darker_gray)",
           }}
         />
         <ArrowForwardIosRoundedIcon
           style={{
-            borderRight: "1px solid #fff",
-
+            color: "var(--darker_gray)",
             marginRight: 10,
           }}
         />
-        <p style={{ cursor: "pointer" }}>Reference</p>
+        <p
+          style={{
+            cursor: "pointer",
+            color: "var(--darker_gray)",
+            paddingLeft: 20,
+          }}
+        >
+          Reference
+        </p>
       </Row>
 
       <Row>
         <Avatar
           variant="rounded"
           style={{
-            width: 30,
-            height: 30,
+            width: 25,
+            height: 25,
             alignSelf: "center",
             borderRadius: 10,
             marginRight: 10,
           }}
           src={user?.photoURL}
         />
-        <p style={{ marginRight: 15 }}>2.00 USD</p>
+        <p
+          style={{
+            color: "var(--darker_gray)",
+
+            fontSize: 15,
+          }}
+        >
+          2.00 USD
+        </p>
         <Money>
           <span>Add Credits</span>
         </Money>
-        <SettingsRoundedIcon />
+        <SettingsRoundedIcon
+          style={{
+            color: "var(--darker_gray)",
+            margin: 5,
+          }}
+        />
       </Row>
     </Section>
   );
@@ -54,23 +76,24 @@ const Section = styled.div`
   display: flex;
   position: sticky;
   top: 0;
-  background-color: whitesmoke;
+  background-color: var(--gray);
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  z-index: 9999;
+  z-index: 100;
+  margin: 0;
+  padding: 0;
+  max-height: 35px;
 `;
 
 const Money = styled.div`
   border-radius: 25px;
-  background-color: green;
+  background-color: var(--button);
   color: #fff;
   padding: 0px 15px 5px 15px;
   align-items: center;
   justify-content: center;
   transition-duration: 0.3s;
-  border-left: 1px solid #fff;
-  border-right: 1px solid #fff;
   margin-left: 5px;
   margin-right: 5px;
   cursor: pointer;
@@ -79,7 +102,7 @@ const Money = styled.div`
   }
 
   &:hover {
-    background-color: #000;
+    background-color: green;
   }
 `;
 
@@ -88,4 +111,5 @@ const Row = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin: 0;
 `;

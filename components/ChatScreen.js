@@ -3,15 +3,18 @@ import { useRouter } from "next/router";
 import { useAuthState } from "react-firebase-hooks/auth";
 import styled from "styled-components";
 import { auth, db } from "../firebase";
-import PersonAddOutlinedIcon from "@material-ui/icons/PersonAddOutlined";
-import CallOutlinedIcon from "@material-ui/icons/CallOutlined";
-import VideocamOutlinedIcon from "@material-ui/icons/VideocamOutlined";
-import InfoOutlinedIcon from "@material-ui/icons/InfoOutlined";
+import {
+  PersonAddOutlinedIcon,
+  CallOutlinedIcon,
+  VideocamOutlinedIcon,
+  InfoOutlinedIcon,
+  AddIcon,
+  GifIcon,
+  MoodIcon,
+  MicNoneIcon,
+} from "../styles/icons";
 import { useCollection } from "react-firebase-hooks/firestore";
-import AddIcon from "@material-ui/icons/Add";
-import GifIcon from "@material-ui/icons/Gif";
-import MoodIcon from "@material-ui/icons/Mood";
-import MicNoneIcon from "@material-ui/icons/MicNone";
+
 import Message from "./Message";
 import { useRef, useState } from "react";
 import firebase from "firebase";
@@ -130,7 +133,7 @@ const ChatScreen = ({ chat, messages }) => {
                 {recipient?.lastSeen?.toDate() ? (
                   <TimeAgo datetime={recipient?.lastSeen?.toDate()} />
                 ) : (
-                  "Last seen recently"
+                  "recently"
                 )}
               </p>
             ) : (
@@ -140,10 +143,10 @@ const ChatScreen = ({ chat, messages }) => {
         </Row>
 
         <HeaderIcons>
-          <MyPersonAddOutlinedIcon style={{ fontSize: 30 }} />
-          <MyCallOutlinedIcon style={{ fontSize: 30 }} />
-          <MyVideocamOutlinedIcon style={{ fontSize: 30 }} />
-          <MyInfoOutlinedIcon style={{ fontSize: 30 }} />
+          <MyPersonAddOutlinedIcon style={{ fontSize: 27 }} />
+          <MyCallOutlinedIcon style={{ fontSize: 27 }} />
+          <MyVideocamOutlinedIcon style={{ fontSize: 27 }} />
+          <MyInfoOutlinedIcon style={{ fontSize: 27 }} />
         </HeaderIcons>
       </Header>
 
@@ -166,7 +169,7 @@ const ChatScreen = ({ chat, messages }) => {
         <MicNoneIcon
           style={{
             color: "#FFF",
-            backgroundColor: "purple",
+            backgroundColor: "var(--prime)",
             borderRadius: 25,
             fontSize: 42,
             padding: "8px",
@@ -186,10 +189,11 @@ const Section = styled.div`
 const Header = styled.div`
   position: sticky;
   background-color: #fff;
-  z-index: 10000;
+  z-index: 5;
   top: 0;
   display: flex;
-  padding: 11px;
+  padding-left: 10px;
+  padding-right: 10px;
   align-items: center;
   border-bottom: 1px solid whitesmoke;
   flex-direction: row;
@@ -200,22 +204,23 @@ const Info = styled.div`
   margin-left: 15px;
   align-items: flex-start;
   h1 {
-    font-size: clamp(0.2rem, 6vw, 1.1rem);
+    font-size: clamp(0.2rem, 6vw, 1rem);
     font-weight: 400;
   }
 
   p {
     font-weight: 400;
-    font-size: clamp(0.1rem, 6vw, 0.8rem);
-    transform: translateY(-5px);
+    font-size: clamp(0.1rem, 6vw, 0.7rem);
+    transform: translateY(-10px);
+    color: var(--darker_gray);
   }
 `;
 const HeaderIcons = styled.div``;
 const MyPersonAddOutlinedIcon = styled(PersonAddOutlinedIcon)`
   cursor: pointer;
-  color: violet;
+  color: var(--prime);
   &:hover {
-    fill: purple;
+    fill: #8118f2;
   }
   margin-left: 5px;
   margin-right: 5px;
@@ -224,51 +229,51 @@ const MyCallOutlinedIcon = styled(CallOutlinedIcon)`
   cursor: pointer;
   margin-left: 5px;
   margin-right: 5px;
-  color: violet;
+  color: var(--prime);
   &:hover {
-    fill: purple;
+    fill: #8118f2;
   }
 `;
 const MyVideocamOutlinedIcon = styled(VideocamOutlinedIcon)`
   cursor: pointer;
   margin-left: 5px;
   margin-right: 5px;
-  color: violet;
+  color: var(--prime);
   &:hover {
-    fill: purple;
+    fill: #8118f2;
   }
 `;
 const MyInfoOutlinedIcon = styled(InfoOutlinedIcon)`
   cursor: pointer;
   margin-left: 5px;
   margin-right: 5px;
-  color: violet;
+  color: var(--prime);
   &:hover {
-    fill: purple;
+    fill: #8118f2;
   }
 `;
 const MyAddIcon = styled(AddIcon)`
   cursor: pointer;
   margin-left: 5px;
   margin-right: 5px;
-  color: gray;
+  color: var(--second);
   &:hover {
-    fill: purple;
+    fill: #8118f2;
   }
 `;
 const MyGifIcon = styled(GifIcon)`
   margin-left: 5px;
   margin-right: 5px;
-  color: gray;
+  color: var(--second);
   &:hover {
-    fill: purple;
+    fill: #8118f2;
   }
   cursor: pointer;
 `;
 const MyMoodIcon = styled(MoodIcon)`
   margin-left: 5px;
   margin-right: 5px;
-  color: gray;
+  color: var(--second);
   &:hover {
     fill: purple;
   }
@@ -298,6 +303,7 @@ const InputContainer = styled.form`
   z-index: 1000;
   padding-left: 15px;
   padding-right: 15px;
+  border-top: 2px solid var(--border);
 `;
 const Input = styled.input`
   flex: 1;
@@ -310,6 +316,7 @@ const Input = styled.input`
     -webkit-box-shadow: none !important;
     outline: none !important;
   }
+  font-weight: 500;
 
   position: sticky;
   bottom: 0;

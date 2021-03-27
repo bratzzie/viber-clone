@@ -19,7 +19,6 @@ const Login = () => {
           justifyContent: "center",
         }}
       >
-        <Logo src="/viber-icon.png" width={150} height={150} />
         <Title>Welcome to Viber!</Title>
         <Subtitle>
           Free and secure calls and messages to any Viber user in the world.
@@ -29,7 +28,7 @@ const Login = () => {
           variant="contained"
           color="primary"
           style={{
-            backgroundColor: "violet",
+            backgroundColor: "var(--prime)",
             borderRadius: 12,
             marginLeft: "30%",
           }}
@@ -52,11 +51,11 @@ const Section = styled(Container)`
 const Title = styled.h1`
   text-align: center;
   font-weight: 500;
-  color: violet;
+  color: var(--prime);
 `;
 const Subtitle = styled.h4`
   text-align: center;
   font-weight: 200;
-  color: gray;
+  color: var(--darker_gray);
 `;
 const Logo = styled(Image)``;

@@ -1,4 +1,3 @@
-import { Container } from "@material-ui/core";
 import Sidebar from "../../components/Sidebar";
 import styled from "styled-components";
 import ChatScreen from "../../components/ChatScreen";

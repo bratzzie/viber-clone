@@ -21,9 +21,6 @@ function MyApp({ Component, pageProps }) {
         { merge: true }
       );
     }
-    // return () => {
-    //   cleanup;
-    // };
   }, [user]);
 
   if (loading) return <Loading />;

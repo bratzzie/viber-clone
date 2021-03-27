@@ -1,3 +1,15 @@
+:root {
+  --prime: #7360f2;
+  --second: #b0b8c1;
+  --message_res: #efefef;
+  --message_send: #d8ebff;
+  --gray: #f5f6f8; /*input& header*/
+  --border: #e4e9f2;
+  --button: #54bc00;
+  --darker_gray: #9daab9;
+  --blue: #edf4f6;
+}
+
 html,
 body {
   padding: 0;

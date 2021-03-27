@@ -1,9 +1,4 @@
 import styled from "styled-components";
-import ChatIcon from "@material-ui/icons/Chat";
-import PersonIcon from "@material-ui/icons/Person";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import SearchIcon from "@material-ui/icons/Search";
-import LaunchIcon from "@material-ui/icons/Launch";
 import * as EmailValidator from "email-validator";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -15,6 +10,13 @@ import { useState } from "react";
 import { auth, db } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
+import {
+  ChatIcon,
+  PersonIcon,
+  MoreHorizIcon,
+  SearchIcon,
+  LaunchIcon,
+} from "../styles/icons";
 import Chat from "./Chat";
 
 const Sidebar = () => {
@@ -106,7 +108,8 @@ const Sidebar = () => {
             style={{
               fontSize: 18,
               marginLeft: 10,
-              fill: "purple",
+              fill: "var(--darker_gray)",
+
               cursor: "pointer",
             }}
           />
@@ -129,10 +132,10 @@ const Container = styled.div`
   flex-direction: column;
   flex: 0.25;
   padding: 20px 0px;
-  border-right: 1px solid whitesmoke;
+  border-right: 1px solid var(--border);
   height: 100vh;
   overflow-y: scroll;
-
+  min-width: 150px;
   ::-webkit-scrollbar {
     display: none;
   }
@@ -143,7 +146,7 @@ const Header = styled.div`
   position: sticky;
   top: 0;
 
-  border-bottom: 1px solid whitesmoke;
+  border-bottom: 1px solid var(--border);
 `;
 const IconsContainer = styled.div`
   display: flex;
@@ -153,38 +156,40 @@ const IconsContainer = styled.div`
 `;
 const MyChatIcon = styled(ChatIcon)`
   cursor: pointer;
-  color: gray;
+  color: var(--second);
   &:hover {
-    fill: purple;
+    fill: var(--prime);
   }
 `;
 const MyPersonIcon = styled(PersonIcon)`
   cursor: pointer;
-  color: gray;
+  color: var(--second);
   &:hover {
-    fill: purple;
+    fill: var(--prime);
   }
 `;
 const MyMoreHorizon = styled(MoreHorizIcon)`
   cursor: pointer;
-  color: gray;
+  color: var(--second);
   &:hover {
-    fill: purple;
+    fill: var(--prime);
   }
 `;
 const MyLaunchIcon = styled(LaunchIcon)`
   cursor: pointer;
-  color: gray;
+  color: var(--darker_gray);
   &:hover {
-    fill: purple;
+    fill: var(--prime);
   }
 `;
 const Search = styled.div`
   display: flex;
   align-items: center;
-  border: 1px solid violet;
-  border-radius: 20px;
-  margin: 15px;
+  border: none;
+  border-radius: 25px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: var(--gray);
 `;
 
 const SearchInput = styled.input`
@@ -192,8 +197,8 @@ const SearchInput = styled.input`
   border: none;
 
   background-color: transparent;
-  padding: 5px;
-  padding-left: 10px;
+  padding: 10px;
+  padding-bottom: 5px;
   &:focus,
   &:active {
     box-shadow: none !important;
@@ -207,5 +212,6 @@ const Row = styled.div`
   display: flex;
   align-items: center;
   flex-direction: row;
-  border-bottom: 1px solid whitesmoke;
+  border-bottom: 1px solid var(--border);
+  justify-content: space-evenly;
 `;
