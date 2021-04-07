@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { auth } from "../firebase";
 import moment from "moment";
 const Message = ({ user, message }) => {
+  // check whether the message is our or not, to display it properly
   const [userLoggedIn] = useAuthState(auth);
   const TypeOfMessage = user === userLoggedIn.email ? Sender : Reciever;
   return (
@@ -43,7 +44,7 @@ const Reciever = styled(MessageElement)`
 const Timestamp = styled.span`
   color: gray;
   padding: 10px;
-  font-size: 9px; //TODO:
+  font-size: 9px;
   position: absolute;
   bottom: 0;
   text-align: right;

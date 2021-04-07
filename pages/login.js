@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import Image from "next/image";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
@@ -58,4 +56,3 @@ const Subtitle = styled.h4`
   font-weight: 200;
   color: var(--darker_gray);
 `;
-const Logo = styled(Image)``;

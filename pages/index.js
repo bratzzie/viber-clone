@@ -1,4 +1,6 @@
 import Head from "next/head";
+
+import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 
 export default function Home() {
@@ -8,9 +10,12 @@ export default function Home() {
         <title>Viber Clone</title>
         <link rel="icon" href="/viber_favicon.ico" />
       </Head>
-
+      <Header />
       <main style={{ display: "flex", flexDirection: "row" }}>
-        <Sidebar />
+        <div style={{ flexDirection: "column" }}>
+          <Sidebar />
+        </div>
+        <div style={{ display: "flex", flex: 1 }}></div>
       </main>
     </>
   );

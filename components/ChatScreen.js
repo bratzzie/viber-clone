@@ -288,7 +288,7 @@ const Row = styled.div`
 
 const MessageContainer = styled.div`
   padding: 30px;
-  min-height: 90vh;
+  min-height: 75vh;
 `;
 const EndOfMessage = styled.div`
   margin-bottom: 50px;

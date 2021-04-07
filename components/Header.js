@@ -9,6 +9,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
 
 const Header = () => {
+  // to get user's avatar
   const [user] = useAuthState(auth);
   return (
     <Section>

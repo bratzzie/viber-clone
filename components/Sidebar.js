@@ -1,11 +1,6 @@
 import styled from "styled-components";
 import * as EmailValidator from "email-validator";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import { useState } from "react";
 import { auth, db } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -14,21 +9,23 @@ import {
   ChatIcon,
   PersonIcon,
   MoreHorizIcon,
-  SearchIcon,
   LaunchIcon,
 } from "../styles/icons";
 import Chat from "./Chat";
+import SearchComponent from "./Search";
+import Modal from "./Modal";
 
 const Sidebar = () => {
   // Local user
   const [user] = useAuthState(auth);
 
+  // to get all chats
   const userChatRef = db
     .collection("chats")
     .where("users", "array-contains", user.email);
   const [chatsSnapshot] = useCollection(userChatRef);
 
-  // To find someone
+  // To add someone
   const createChat = () => {
     const input = prompt("With whom you want to talk today?");
     if (!input) return null;
@@ -56,6 +53,7 @@ const Sidebar = () => {
   // To log out
   const [open, setOpen] = useState(false);
 
+  // functions to handle modal
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -68,6 +66,7 @@ const Sidebar = () => {
     setOpen(false);
     auth.signOut();
   };
+
   return (
     <Container>
       <Header>
@@ -76,45 +75,14 @@ const Sidebar = () => {
           <MyPersonIcon fontSize="large" />
           <MyMoreHorizon fontSize="large" onClick={handleClickOpen} />
         </IconsContainer>
-        <div>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">
-              {"Log out from Viber"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                Do you really want to log out? 😿
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose} color="primary" autoFocus>
-                No
-              </Button>
-              <Button onClick={handleSignOut} color="primary">
-                Yes
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </div>
+        <Modal
+          open={open}
+          handleClose={handleClose}
+          handleSignOut={handleSignOut}
+        />
       </Header>
       <Row>
-        <Search>
-          <SearchIcon
-            style={{
-              fontSize: 18,
-              marginLeft: 10,
-              fill: "var(--darker_gray)",
-
-              cursor: "pointer",
-            }}
-          />
-          <SearchInput placeholder="Search..." />
-        </Search>
+        <SearchComponent />
         <MyLaunchIcon style={{ fontSize: 15 }} onClick={createChat} />
       </Row>
 
@@ -175,36 +143,12 @@ const MyMoreHorizon = styled(MoreHorizIcon)`
     fill: var(--prime);
   }
 `;
+
 const MyLaunchIcon = styled(LaunchIcon)`
   cursor: pointer;
   color: var(--darker_gray);
   &:hover {
     fill: var(--prime);
-  }
-`;
-const Search = styled.div`
-  display: flex;
-  align-items: center;
-  border: none;
-  border-radius: 25px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  background-color: var(--gray);
-`;
-
-const SearchInput = styled.input`
-  border-radius: 20px;
-  border: none;
-
-  background-color: transparent;
-  padding: 10px;
-  padding-bottom: 5px;
-  &:focus,
-  &:active {
-    box-shadow: none !important;
-    -moz-box-shadow: none !important;
-    -webkit-box-shadow: none !important;
-    outline: none !important;
   }
 `;
 

@@ -10,6 +10,7 @@ import TimeAgo from "timeago-react";
 const Chat = ({ id, users }) => {
   const [user] = useAuthState(auth);
   const recipientEmail = getRecipientEmail(users, user);
+  console.log(user);
   const [recipientSnapshot] = useCollection(
     db
       ?.collection("users")
@@ -109,6 +110,6 @@ const UserAvatar = styled(Avatar)`
 const TimeStamp = styled.p`
   color: var(--darker_gray);
 
-  font-size: 9px; //TODO:
+  font-size: 9px;
   text-align: right;
 `;
